@@ -1,0 +1,16 @@
+.env
+*.pyc
+__pycache__/
+detected_fires/*
+!detected_fires/README.md
+.pytest_cache/
+.vscode/
+for posting
+runs
+tests/test_data
+tologo.py
+*.log
+logs/
+*.bin
+*.pt
+bags/

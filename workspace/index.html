@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flare Guard: Real-Time Smoke & Fire Detection with YOLO11</title>
+    <link rel="icon" type="image/png" href="data/logo.png">
+    <link rel="shortcut icon" type="image/png" href="data/logo.png">
+        <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="header">
+        <h1>Flare Guard: Real-Time Smoke & Fire Detection with YOLO11</h1>
+        <div class="image-container">
+            <img src="data/fire14.png" alt="Flare Guard Cover" width="700" loading="lazy" />
+        </div>
+        <div class="badge-container">
+            <a><img src="https://img.shields.io/badge/Python-3.7%2B-blue" alt="Python" class="badge" loading="lazy"/></a>
+            <a href="https://t.me/FlareGuard_bot">
+                <img src="https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white" alt="Telegram"
+                    class="badge" loading="lazy" />
+            </a>
+            <a href="https://github.com/ultralytics/ultralytics">
+                <img src="https://img.shields.io/badge/Ultralytics-181717?logo=github&logoColor=white" alt="Ultralytics"
+                    class="badge" loading="lazy" />
+            </a>
+            <a href="https://github.com/ultralytics/ultralytics">
+                <img src="https://img.shields.io/badge/YOLOv11-181717?logo=github&logoColor=white" alt="YOLOv11"
+                    class="badge" loading="lazy" />
+            </a>
+            <a href="https://universe.roboflow.com/sayed-gamall/fire-smoke-detection-yolov11">
+                <img src="https://app.roboflow.com/images/download-dataset-badge.svg" alt="Download Dataset" class="badge"
+                    loading="lazy" />
+            </a>
+            <a href="https://universe.roboflow.com/sayed-gamall/fire-smoke-detection-yolov11/model/">
+                <img src="https://app.roboflow.com/images/try-model-badge.svg" alt="Try Model" class="badge"
+                    loading="lazy" />
+            </a>
+            <a href="https://www.kaggle.com/code/sayedgamal99/smoke-fire-detection-yolon11">
+                <img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle Notebook" class="badge"
+                    loading="lazy" />
+            </a>
+        </div>
+    </div>
+
+    <h2>📌 Table of Contents</h2>
+    <ol>
+        <li><a href="#intro">Introduction</a></li>
+        <li><a href="#demo">Video Demonstration</a></li>
+        <li><a href="#dataset">Dataset</a></li>
+        <li><a href="#training">Training Summary</a></li>
+        <li><a href="#examples">Example Detections</a></li>
+        <li><a href="#installation">Installation and Usage</a></li>
+    </ol>
+
+    <h2 id="intro">Safeguard Lives with Smart Fire & Smoke Detection</h2>
+    <h3>Problem Description</h3>
+    <p>Early fire detection is crucial for minimizing damage and saving lives. Traditional sensors often fail to detect
+        fires quickly, leading to devastating consequences. This project leverages advanced deep learning to enable
+        real-time fire and smoke detection.</p>
+
+    <div class="image-container">
+        <img src="data/logo.png" width="200" alt="Flare Guard Logo" class="logo" loading="lazy" />
+    </div>
+
+    <h3>Solution</h3>
+    <p><strong>Flare Guard</strong> is a cutting-edge real-time fire and smoke detection system using
+        <strong>YOLOv11</strong> for rapid identification in video streams. The system provides instant alerts via
+        <strong>Telegram/WhatsApp</strong> and can operate in diverse environments.
+    </p>
+
+    <h3>Why Choose Flare Guard?</h3>
+    <ul>
+        <li><strong>Real-Time Detection:</strong> Processes frames in <strong>&lt;15ms</strong> on a GPU (~30-60 FPS)
+        </li>
+        <li><strong>Multi-Platform Alerts:</strong> Instant Telegram/WhatsApp notifications with detected images</li>
+        <li><strong>High Accuracy:</strong> 80.6% Precision, 71.7% Recall, 77% mAP@50</li>
+        <li><strong>Environmental Robustness:</strong> Operates in low-light, fog, and crowded areas</li>
+        <li><strong>Scalable Deployment:</strong> Supports live webcam feeds and pre-recorded videos</li>
+    </ul>
+
+    <h2 id="demo">Video Demonstration</h2>
+    <div class="image-container demo-video">
+        <iframe width="700" height="394" src="https://www.youtube.com/embed/UzUa48gon5Q" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <h3>🔥 Fire Detection System in Action</h3>
+        <p>This video demonstrates the system detecting fire immediately upon occurrence.</p>
+        <p>Alerts are sent instantly to Telegram and WhatsApp, including an attached image.</p>
+        <p>Thanks to multithreading, the system continues running without interruption.</p>
+    </div>
+
+    <h2 id="dataset">Dataset</h2>
+    <p>The dataset consists of <strong>9,463 annotated images</strong>, available on <a
+            href="https://universe.roboflow.com/sayed-gamall/fire-smoke-detection-yolov11">Roboflow</a>. It includes
+        diverse scenarios to enhance model robustness.</p>
+
+    <table>
+        <tr>
+            <th>Split</th>
+            <th>Images</th>
+            <th>Annotations</th>
+        </tr>
+        <tr>
+            <td>Training</td>
+            <td>9,156</td>
+            <td>27,468</td>
+        </tr>
+        <tr>
+            <td>Validation</td>
+            <td>872</td>
+            <td>2,616</td>
+        </tr>
+        <tr>
+            <td>Test</td>
+            <td>435</td>
+            <td>1,305</td>
+        </tr>
+    </table>
+
+    <div class="code-block">
+        <pre>
+# Download dataset via Roboflow
+from roboflow import Roboflow
+rf = Roboflow(api_key="YOUR_API_KEY")
+project = rf.workspace("sayed-gamall").project("fire-smoke-detection-yolov11")
+dataset = project.version(2).download("yolov11")</pre>
+    </div>
+
+    <h2 id="training">Training Summary</h2>
+    <p>The model was trained using <strong>YOLOv11</strong> on a dataset of fire and smoke images. Training stopped
+        early due to no improvement over 20 epochs, with the best results observed at <strong>Epoch 92</strong>.</p>
+
+    <div class="image-container">
+        <img src="data/training_graphs.png" alt="Training Graph" width="600" loading="lazy" />
+    </div>
+
+    <h3>Final Validation Results</h3>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>Precision (P)</td>
+            <td><strong>0.806</strong></td>
+        </tr>
+        <tr>
+            <td>Recall (R)</td>
+            <td><strong>0.717</strong></td>
+        </tr>
+        <tr>
+            <td>mAP@50</td>
+            <td><strong>0.770</strong></td>
+        </tr>
+        <tr>
+            <td>mAP@50-95</td>
+            <td><strong>0.492</strong></td>
+        </tr>
+    </table>
+
+    <h2 id="examples">Example Detections</h2>
+    <div class="example-images">
+        <img src="data/ex1.png" alt="Example 1" loading="lazy" />
+        <img src="data/ex2.png" alt="Example 2" loading="lazy" />
+        <img src="data/ex3.png" alt="Example 3" loading="lazy" />
+    </div>
+        
+    <h2 id="installation">Installation and Usage 🚀</h2>
+    <h3>Installation</h3>
+    <div class="code-block">
+        <pre>
+    git clone https://github.com/sayedgamal99/Real-Time-Smoke-Fire-Detection-YOLO11
+    cd Real-Time-Smoke-Fire-Detection-YOLO11</pre>
+    </div>
+    
+    <p>Install the required packages:</p>
+    <div class="code-block">
+        <pre>pip install ultralytics</pre>
+    </div>
+    
+    <h3>Inference</h3>
+    <p>To perform inference with the trained model on test images, run:</p>
+    <div class="code-block">
+        <pre>yolo detect predict model=models/best_nano_111.pt source=data/house.png conf=0.35 iou=0.1</pre>
+    </div>
+    
+    <div class="image-container">
+        <img src="data/ex4.png" alt="Inference Example" width="700" loading="lazy" />
+    </div>
+    
+    <p>To perform inference in real-time using a webcam:</p>
+    <div class="code-block">
+        <pre>yolo detect predict model=models/best_nano_111.pt source=0 conf=0.35 iou=0.1 show=True</pre>
+    </div>
+    
+    <div class="footer">
+        <h3>Protect What Matters Most - Early Detection Saves Lives</h3>
+        <p>Developed with ❤️ by <a href="https://github.com/sayedgamal99" target="_blank">Sayed Gamal</a></p>
+    </div>
+        
+</body>
+        
+</html>

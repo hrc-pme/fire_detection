@@ -1,0 +1,65 @@
+#############################
+###    shared settings    ###
+#############################
+x-common-settings: &common
+  build:
+    context: ..
+    dockerfile: docker/dockerfile.cpu
+    args:
+      USER_ID: 1000
+      GROUP_ID: 1000
+      USERNAME: user
+  image: hrcnthu/fire:cpu-torch
+
+  volumes:
+    # GUI support for ROS applications
+    - $HOME/.Xauthority:/root/.Xauthority
+    - /tmp/.X11-unix:/tmp/.X11-unix
+    
+    # Device access
+    - /dev:/dev
+    - /dev/shm:/dev/shm:ro
+    - /run/udev:/run/udev:ro
+    
+    # Workspace volume
+    - ../workspace:/workspace
+
+  environment:
+    - ROS_DOMAIN_ID=25
+    - DISPLAY=${DISPLAY}
+    - XAUTHORITY=/root/.Xauthority
+
+  # ROS2 communication settings
+  network_mode: "host"
+  ipc: host
+  
+  # Container settings
+  tty: true
+  stdin_open: true
+  privileged: true
+  stop_grace_period: 1s
+  working_dir: /workspace
+  
+
+
+##############################
+###   Container Services   ###
+##############################
+services:
+  dev:
+    <<: *common
+    container_name: fire_detection-dev
+    command: ["/bin/bash"]
+
+  fire:
+    <<: *common
+    container_name: fire_detection-fire
+    volumes:
+      - $HOME/.Xauthority:/root/.Xauthority
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /dev:/dev
+      - /dev/shm:/dev/shm:ro
+      - /run/udev:/run/udev:ro
+      - ../workspace:/workspace
+      - ./services:/services
+    command: ["/bin/bash", "/services/fire.sh"]
